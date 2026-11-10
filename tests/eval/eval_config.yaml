@@ -1,0 +1,54 @@
+metrics_to_run:
+  - custom_response_quality
+  - agent_as_a_judge_critic
+  - deterministic_tool_trajectory_score
+  - agent_turn_count
+
+thresholds:
+  custom_response_quality: 4
+  agent_as_a_judge_critic: 4
+  deterministic_tool_trajectory_score: 1.0
+
+custom_metrics:
+  # Default: local LLM-as-judge (see response_quality.py). Runs in-process via
+  # google-genai on Gemini platform (ADC) or Google AI Studio (GEMINI_API_KEY).
+  - name: custom_response_quality
+    custom_function_file: response_quality.py
+  # Agent-as-a-Judge Critic Agent evaluating the full execution trace (Whitepaper p. 25)
+  - name: agent_as_a_judge_critic
+    custom_function_file: critic_agent_judge.py
+  - name: deterministic_tool_trajectory_score
+    custom_function: |
+      def evaluate(instance):
+          turns = (instance.get("agent_data") or {}).get("turns", [])
+          prompt_text = str(instance.get("prompt", "")).upper()
+          called_tools = []
+          for turn in turns:
+              for event in (turn.get("events") or []):
+                  for part in ((event.get("content") or {}).get("parts") or []):
+                      fn_call = part.get("function_call") or part.get("functionCall")
+                      if isinstance(fn_call, dict) and fn_call.get("name"):
+                          called_tools.append(fn_call["name"])
+          if "EQB-1001" in prompt_text:
+              passed = "lookup_nuvemshop_order_status" in called_tools
+          elif "EQB-1003" in prompt_text:
+              passed = (
+                  "search_equib_store_policies_and_catalog" in called_tools
+                  or "create_nuvemshop_exchange_or_support_ticket" in called_tools
+              )
+          elif "EQB-1002" in prompt_text:
+              passed = (
+                  "process_nuvemshop_order_refund" in called_tools
+                  or "lookup_nuvemshop_order_status" in called_tools
+              )
+          else:
+              passed = len(called_tools) > 0
+          return {
+              "score": 1.0 if passed else 0.0,
+              "explanation": f"Called tools: {called_tools}",
+          }
+  - name: agent_turn_count
+    custom_function: |
+      def evaluate(instance):
+          turns = (instance.get("agent_data") or {}).get("turns", [])
+          return {'score': len(turns)}

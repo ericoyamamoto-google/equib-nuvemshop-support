@@ -1,0 +1,14 @@
+# Multi-Turn Persona Simulation Evaluation Config (Agent Quality Whitepaper p. 24-25)
+# Usage:
+#   agents-cli eval dataset synthesize -n 3 --max-turns 5 --instruction "EQUI'B customer asking about order tracking, 30-day size exchanges, or damaged item refunds"
+#   agents-cli eval grade --config tests/eval/eval_config_multiturn.yaml
+
+metrics_to_run:
+  - multi_turn_task_success
+  - multi_turn_trajectory_quality
+  - multi_turn_tool_use_quality
+
+thresholds:
+  multi_turn_task_success: 0.8
+  multi_turn_trajectory_quality: 0.8
+  multi_turn_tool_use_quality: 0.8
