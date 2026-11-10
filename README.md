@@ -2,6 +2,19 @@
 
 An enterprise multi-agent system built with **Google Agent Development Kit (ADK) Python** and **`agents-cli`** for **EQUI'B**'s e-commerce storefront on **Nuvemshop (Tiendanube)**.
 
+## Quick Links (Repository, Architecture & Web UI)
+
+- **Public GitHub Repository (App Root)**: https://github.com/ericoyamamoto-google/equib-nuvemshop-support
+- **Solution Architecture Document**: [ARCHITECTURE.md](ARCHITECTURE.md) ([GitHub View](https://github.com/ericoyamamoto-google/equib-nuvemshop-support/blob/main/ARCHITECTURE.md))
+- **Agent Specification**: [.agents-cli-spec.md](.agents-cli-spec.md) ([GitHub View](https://github.com/ericoyamamoto-google/equib-nuvemshop-support/blob/main/.agents-cli-spec.md))
+- **AI in 5 Days Evaluator Portal**: https://fde-project-evaluator-510868799189.us-central1.run.app/login
+- **Local / Cloudtop Interactive Web UI Links** (when server is running on port `8000`):
+  - **EQUI'B Client Support Portal**: http://localhost:8000/ui/client | http://ericoyamamoto.c.googlers.com:8000/ui/client
+  - **EQUI'B Team HITL & Operations Console**: http://localhost:8000/ui/admin | http://ericoyamamoto.c.googlers.com:8000/ui/admin
+  - **ADK Interactive Dev UI Playground**: http://localhost:8000/dev-ui/ | http://ericoyamamoto.c.googlers.com:8000/dev-ui/
+  - **OpenAPI / Swagger Docs**: http://localhost:8000/docs | http://ericoyamamoto.c.googlers.com:8000/docs
+  - **Live Telemetry & Pillar 3 Metrics API**: http://localhost:8000/ui/api/telemetry | http://ericoyamamoto.c.googlers.com:8000/ui/api/telemetry
+
 ## Problem & Solution Statement
 
 - **Problem**: Managing customer support inquiries for an online equestrian & lifestyle brand on **Nuvemshop**—including order status lookups, multi-carrier tracking (`Correios`, `Jadlog`, `MelhorEnvio`), Brazilian Consumer Code (`CDC Art. 49`) 7-day refund vs. 30-day size exchange eligibility, and high-stakes financial refunds—is manual, error-prone, and time-intensive.
